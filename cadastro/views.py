@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from cadastro.models import Cliente
+from cadastro.serializer import ClienteSerializer
 
-# Create your views here.
+class ClientesViewSet(viewsets.ModelViewSet):
+  queryset = Cliente.objects.all()
+  serializer_class = ClienteSerializer
