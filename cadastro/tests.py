@@ -24,3 +24,15 @@ class CadastroTests(APITestCase):
         response = self.client.get('/clientes/1/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, clienteMock)
+
+    def test_update_client(self):
+        self.client.post('/clientes/', clienteMock, format='json')
+        response = self.client.put(
+            '/clientes/1/',
+            {'id': 1, 'nome': 'Updated', 'cpf': '99999999999'},
+            format='json'
+            )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Cliente.objects.count(), 1)
+        self.assertEqual(Cliente.objects.get().nome, 'Updated')
+        self.assertEqual(Cliente.objects.get().cpf, '99999999999')
