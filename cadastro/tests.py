@@ -36,3 +36,9 @@ class CadastroTests(APITestCase):
         self.assertEqual(Cliente.objects.count(), 1)
         self.assertEqual(Cliente.objects.get().nome, 'Updated')
         self.assertEqual(Cliente.objects.get().cpf, '99999999999')
+
+    def test_delete_client(self):
+        self.client.post('/clientes/', clienteMock, format='json')
+        response = self.client.delete('/clientes/1/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Cliente.objects.count(), 0)
