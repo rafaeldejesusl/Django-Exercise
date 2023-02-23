@@ -18,3 +18,9 @@ class CadastroTests(APITestCase):
         response = self.client.get('/clientes/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, [clienteMock])
+
+    def test_get_by_id_client(self):
+        self.client.post('/clientes/', clienteMock, format='json')
+        response = self.client.get('/clientes/1/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, clienteMock)
