@@ -41,13 +41,24 @@ class CadastroTests(APITestCase):
         self.client.post('/clientes/', clienteMock, format='json')
         response = self.client.put(
             '/clientes/1/',
-            {'id': 1, 'nome': 'Updated', 'cpf': '99999999999'},
+            {
+                'id': 1,
+                'nome': 'Updated',
+                'cpf': '99999999999',
+                'data_de_nascimento': '2004-06-25',
+                'email': 'updated@email.com'
+            },
             format='json'
             )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Cliente.objects.count(), 1)
         self.assertEqual(Cliente.objects.get().nome, 'Updated')
         self.assertEqual(Cliente.objects.get().cpf, '99999999999')
+        self.assertEqual(
+            Cliente.objects.get().data_de_nascimento,
+            date(2004, 6, 25)
+        )
+        self.assertEqual(Cliente.objects.get().email, 'updated@email.com')
 
     def test_delete_client(self):
         self.client.post('/clientes/', clienteMock, format='json')
