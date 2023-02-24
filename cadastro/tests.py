@@ -1,8 +1,15 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 from cadastro.models import Cliente
+from datetime import date
 
-clienteMock = {'id': 1, 'nome': 'Teste', 'cpf': '00000000000'}
+clienteMock = {
+    'id': 1,
+    'nome': 'Teste',
+    'cpf': '00000000000',
+    'data_de_nascimento': '2004-06-24',
+    'email': 'teste@email.com'
+}
 
 
 class CadastroTests(APITestCase):
@@ -12,6 +19,11 @@ class CadastroTests(APITestCase):
         self.assertEqual(Cliente.objects.count(), 1)
         self.assertEqual(Cliente.objects.get().nome, clienteMock['nome'])
         self.assertEqual(Cliente.objects.get().cpf, clienteMock['cpf'])
+        self.assertEqual(
+            Cliente.objects.get().data_de_nascimento,
+            date(2004, 6, 24)
+        )
+        self.assertEqual(Cliente.objects.get().email, clienteMock['email'])
 
     def test_get_client(self):
         self.client.post('/clientes/', clienteMock, format='json')
