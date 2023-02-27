@@ -11,6 +11,14 @@ clienteMock = {
     'email': 'teste@email.com'
 }
 
+updateMock = {
+    'id': 1,
+    'nome': 'Updated',
+    'cpf': '99999999999',
+    'data_de_nascimento': '2004-06-25',
+    'email': 'updated@email.com'
+}
+
 
 class CadastroTests(APITestCase):
     def test_create_client(self):
@@ -39,26 +47,16 @@ class CadastroTests(APITestCase):
 
     def test_update_client(self):
         self.client.post('/clientes/', clienteMock, format='json')
-        response = self.client.put(
-            '/clientes/1/',
-            {
-                'id': 1,
-                'nome': 'Updated',
-                'cpf': '99999999999',
-                'data_de_nascimento': '2004-06-25',
-                'email': 'updated@email.com'
-            },
-            format='json'
-            )
+        response = self.client.put('/clientes/1/', updateMock, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Cliente.objects.count(), 1)
-        self.assertEqual(Cliente.objects.get().nome, 'Updated')
-        self.assertEqual(Cliente.objects.get().cpf, '99999999999')
+        self.assertEqual(Cliente.objects.get().nome, updateMock['nome'])
+        self.assertEqual(Cliente.objects.get().cpf, updateMock['cpf'])
         self.assertEqual(
             Cliente.objects.get().data_de_nascimento,
             date(2004, 6, 25)
         )
-        self.assertEqual(Cliente.objects.get().email, 'updated@email.com')
+        self.assertEqual(Cliente.objects.get().email, updateMock['email'])
 
     def test_delete_client(self):
         self.client.post('/clientes/', clienteMock, format='json')
