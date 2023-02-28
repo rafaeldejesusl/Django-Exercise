@@ -63,3 +63,16 @@ class CadastroTests(APITestCase):
         response = self.client.delete('/clientes/1/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Cliente.objects.count(), 0)
+
+    def test_error_no_name(self):
+        response = self.client.post(
+            '/clientes/',
+            {
+                'cpf': clienteMock['cpf'],
+                'data_de_nascimento': clienteMock['data_de_nascimento'],
+                'email': clienteMock['email']
+            },
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Cliente.objects.count(), 0)
