@@ -24,6 +24,20 @@ OBS: Caso apareça algum erro na instalação, repita o comando anterior;
 
 A aplicação estará acessível no seguinte endereço: http://localhost:8000
 
+## Endpoints
+
+O projeto consiste em uma API REST, que contém os seguintes endpoints:
+
+- POST ```/clientes/```: Criação de um novo cliente;
+
+- GET ```/clientes/```: Listagem dos dados de todos clientes;
+
+- GET ```/clientes/:id```: Listagem dos dados de um cliente;
+
+- PUT ```/clientes/:id```: Alteração dos dados de um cliente;
+
+- DELETE ```/clientes/:id```: Remoção do cliente;
+
 ## Testes
 
 Foram realizados alguns testes na aplicação utilizando as ferramentas para testar APIs do framework DjangoRest, executados através do seguinte comando:
